@@ -6,23 +6,35 @@ pipeline {
   }
   stages {
     stage('Checkout') {
-      steps { checkout scm }
+      steps {
+        checkout scm
+      }
     }
     stage('Install') {
-      steps { bat 'npm install' }
+      steps {
+        dir('frontend') {
+          bat 'npm install'
+        }
+      }
     }
     stage('Build') {
-      steps { bat 'npm run build' }
+      steps {
+        dir('frontend') {
+          bat 'npm run build'
+        }
+      }
     }
     stage('Docker Build & Push') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'docker_cred', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-          bat """
-            docker build -t %DOCKER_IMAGE%:%TAG% .
-            docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%
-            docker push %DOCKER_IMAGE%:%TAG%
-            docker logout
-          """
+          dir('frontend') {
+            bat """
+              docker build -t %DOCKER_IMAGE%:%TAG% .
+              docker login -u %DOCKERHUB_USERNAME% -p %DOCKERHUB_PASSWORD%
+              docker push %DOCKER_IMAGE%:%TAG%
+              docker logout
+            """
+          }
         }
       }
     }
