@@ -36,33 +36,46 @@ export default function Home() {
   return (
     <main style={styles.container}>
       <h1 style={styles.title}>📝 To-Do List</h1>
-      <div style={styles.form}>
-        <input
-          style={styles.input}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Digite sua tarefa"
-        />
-        <button style={styles.addButton} onClick={addTodo}>
-          Adicionar
-        </button>
+  
+      <div style={styles.card}>
+        <div style={styles.form}>
+          <input
+            style={styles.input}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Digite sua tarefa"
+          />
+          <button style={styles.addButton} onClick={addTodo}>
+            ➕ Adicionar
+          </button>
+        </div>
+  
+        {todos.length === 0 ? (
+          <p style={{ textAlign: 'center', opacity: 0.7 }}>Nenhuma tarefa ainda.</p>
+        ) : (
+          <ul style={styles.list}>
+            {todos.map((todo) => (
+              <li key={todo.id} style={styles.listItem}>
+                <span>{todo.title}</span>
+                <button style={styles.removeButton} onClick={() => deleteTodo(todo.id)}>
+                  🗑️ Remover
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
-
-      <ul style={styles.list}>
-        {todos.map((todo) => (
-          <li key={todo.id} style={styles.listItem}>
-            <span>{todo.title}</span>
-            <button style={styles.removeButton} onClick={() => deleteTodo(todo.id)}>
-              Remover
-            </button>
-          </li>
-        ))}
-      </ul>
     </main>
   );
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
+  card: {
+    backgroundColor: '#1e1e1e',
+    padding: '2rem',
+    borderRadius: '10px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+  },
   container: {
     maxWidth: '600px',
     margin: '0 auto',
@@ -102,14 +115,14 @@ const styles: { [key: string]: React.CSSProperties } = {
     padding: 0,
   },
   listItem: {
-    backgroundColor: '#1e1e1e',
-    marginBottom: '0.5rem',
-    padding: '0.75rem',
-    borderRadius: '4px',
+    backgroundColor: '#2a2a2a',
+    marginBottom: '0.75rem',
+    padding: '1rem',
+    borderRadius: '6px',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
+  },  
   removeButton: {
     padding: '0.4rem 0.75rem',
     backgroundColor: '#e53935',

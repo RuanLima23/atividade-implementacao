@@ -38,3 +38,16 @@ npm run start:dev
 cd frontend
 npm install
 npm run dev
+
+🐳 Como rodar com Docker Compose
+# Na raiz do projeto:
+docker compose up --build -d
+Acesse:
+
+🟦 Frontend: http://localhost:3000
+
+🟨 Backend API: http://localhost:3001/todos
+
+🧩 Banco de Dados: MySQL localhost:3306 (senha: admin123)
+
+
