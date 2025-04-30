@@ -7,14 +7,14 @@ export class TodosService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.todo.findMany({ orderBy: { id: 'desc' } });
+    return this.prisma.task.findMany({ orderBy: { id: 'desc' } });
   }
 
   async create(data: CreateTodoDto) {
-    return this.prisma.todo.create({ data });
+    return this.prisma.task.create({ data });
   }
 
   async remove(id: number) {
-    return this.prisma.todo.delete({ where: { id } });
+    return this.prisma.task.delete({ where: { id } });
   }
 }

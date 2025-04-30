@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    DOCKER_IMAGE = "nicolas290/nestjs-backend"
+    DOCKER_IMAGE = "ruanitro/nestjs-backend"
     TAG = "1.0"
   }
 
