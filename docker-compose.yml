@@ -3,8 +3,8 @@ services:
     image: mysql:8.0
     container_name: tododb
     environment:
-      MYSQL_ROOT_PASSWORD: Escola123
-      MYSQL_DATABASE: tododb
+      MYSQL_ROOT_PASSWORD: "Escola123" 
+      MYSQL_DATABASE: "tododb"       
     ports:
       - "3306:3306"
     volumes:
