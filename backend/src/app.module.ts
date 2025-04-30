@@ -1,7 +1,16 @@
 import { Module } from '@nestjs/common';
-import { TodosModule } from './todos/todos.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+import { PrismaModule }  from './prisma.module';
+import { TodosModule } from './todos/todos.module'
 
 @Module({
-  imports: [TodosModule],
+  imports: [
+    PrismaModule,
+    TodosModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

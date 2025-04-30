@@ -1,23 +1,23 @@
-import { Controller, Get, Post, Body, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, ParseIntPipe } from '@nestjs/common';
 import { TodosService } from './todos.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 
 @Controller('todos')
 export class TodosController {
-  constructor(private readonly todosService: TodosService) {}
+  constructor(private readonly svc: TodosService) {}
 
   @Get()
   findAll() {
-    return this.todosService.findAll();
+    return this.svc.findAll();
   }
 
   @Post()
-  create(@Body() createTodoDto: CreateTodoDto) {
-    return this.todosService.create(createTodoDto);
+  create(@Body() dto: CreateTodoDto) {
+    return this.svc.create(dto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.svc.remove(id);
   }
 }

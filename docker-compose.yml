@@ -1,40 +1,36 @@
+version: '3'
 services:
-  db:
-    image: mysql:8.0
-    container_name: tododb
-    environment:
-      MYSQL_ROOT_PASSWORD: "Escola123" 
-      MYSQL_DATABASE: "tododb"       
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  backend:
-    build: ./backend
-    container_name: todo-backend
-    ports:
-      - "3001:3000"
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      - DATABASE_URL=mysql://root:Escola123@db:3306/tododb
-
-  frontend:
-    build: ./frontend
-    container_name: todo-frontend
+  nestjs:
+    image: ruanitro/nestjs-backend:1.0
+    restart: always
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
+    networks:
+      - mysql-net
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:3000
+      - DATABASE_URL=mysql://root:root@mysql-master:3306/todolist
+    pull_policy: always
 
-volumes:
-  db_data:
+  frontend:
+    image: ruanitro/nextjs-frontend:1.0
+    restart: always
+    ports:
+      - "3001:3000"       
+    networks:
+      - mysql-net
+    depends_on:
+      - nestjs
+    environment:
+      - NEXT_PUBLIC_API_URL=http://nestjs:3000 
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower_nestjs-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --cleanup --interval 60
+    restart: always
+
+networks:
+  mysql-net:
+    external: true
