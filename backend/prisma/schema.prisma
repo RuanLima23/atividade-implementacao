@@ -12,3 +12,8 @@ model task {
   title     String
   createdAt DateTime @default(now())
 }
+
+model tarefa {
+  id        Int      @id @default(autoincrement())
+  title     String
+}
