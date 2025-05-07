@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        PATH = "C:\Program Files\nodejs\;${env.PATH}"
+        PATH = "C:\\Program Files\\nodejs\\;${env.PATH}"
         DOCKER_IMAGE = "ruanitro/nestjs-backend:1.0"
         TAG = "1.0"
     }
